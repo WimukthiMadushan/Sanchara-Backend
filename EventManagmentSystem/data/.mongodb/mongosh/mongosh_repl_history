@@ -1,0 +1,6 @@
+show collections
+use eventmanagement-service
+show dbs
+docker-compose up -d
+rm -rf ./data            # Delete stored database files (Windows users delete manually)
+docker-compose down -v  # Remove all data
