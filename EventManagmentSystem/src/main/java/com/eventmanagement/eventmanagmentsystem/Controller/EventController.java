@@ -1,5 +1,6 @@
 package com.eventmanagement.eventmanagmentsystem.Controller;
 
+import com.eventmanagement.eventmanagmentsystem.Dto.DeleteEventRequest;
 import com.eventmanagement.eventmanagmentsystem.Dto.EventRequest;
 import com.eventmanagement.eventmanagmentsystem.Dto.EventResponse;
 import com.eventmanagement.eventmanagmentsystem.Service.CloudinaryService;
@@ -25,24 +26,34 @@ public class EventController {
     @Autowired
     private CloudinaryService cloudinaryService;
 
+    //Correct........
     @PostMapping(value = "/create", consumes = "multipart/form-data")
     @ResponseStatus(HttpStatus.CREATED)
     public EventResponse createEvent(@ModelAttribute EventRequest eventRequest) throws IOException {
-        String coverImageUrl = cloudinaryService.uploadImage(eventRequest.coverImage());
-        String coverImageThumbnailUrl = cloudinaryService.uploadThumbnail(eventRequest.coverImage());
+        String coverImageUrl = null;
+        String coverImageThumbnailUrl = null;
+
+        if (eventRequest.coverImage() != null && !eventRequest.coverImage().isEmpty()) {
+            coverImageUrl = cloudinaryService.uploadImage(eventRequest.coverImage());
+            coverImageThumbnailUrl = cloudinaryService.uploadThumbnail(eventRequest.coverImage());
+        }
 
         List<String> imageUrls = new ArrayList<>();
         List<String> imageThumbnails = new ArrayList<>();
 
         if (eventRequest.images() != null) {
             for (MultipartFile image : eventRequest.images()) {
-                imageUrls.add(cloudinaryService.uploadImage(image));
-                imageThumbnails.add(cloudinaryService.uploadThumbnail(image));
+                if (image != null && !image.isEmpty()) {
+                    imageUrls.add(cloudinaryService.uploadImage(image));
+                    imageThumbnails.add(cloudinaryService.uploadThumbnail(image));
+                }
             }
         }
-        return eventService.createEvent(eventRequest,coverImageUrl,coverImageThumbnailUrl,imageUrls,imageThumbnails);
+
+        return eventService.createEvent(eventRequest, coverImageUrl, coverImageThumbnailUrl, imageUrls, imageThumbnails);
     }
 
+    //Correct.......
     @GetMapping("/getAll")
     public List<EventResponse> getAllEvent(){
         return eventService.getAllEvents();
@@ -53,23 +64,33 @@ public class EventController {
         String limit = request.get("limit");
         return eventService.getEvents(id,limit);
     }
+    //Correct........
     @GetMapping("/get/{id}")
     public List<EventResponse> getEventById(@PathVariable String id){
         return eventService.getEventById(id);
     }
+    //Correct........
     @PostMapping("/getEventByHost")
     public List<EventResponse> getEventByHost(@RequestBody Map<String,String> request){
         String id = request.get("host_id");
         return eventService.getEventByHost(id);
     }
+    //Correct........
     @GetMapping("/getEventByCategory")
     public List<EventResponse> getEventByCategory(@RequestParam Map<String,String> request){
         String category = request.get("category");
         return eventService.getEventByCategory(category);
     }
+    //Correct........
     @GetMapping("/getTrendingEvents")
     public List<EventResponse> getTrendingEvents(){
         return eventService.getTrendingEvents();
+    }
+
+    //Correct........
+    @DeleteMapping("/deleteEvent")
+    public EventResponse deleteEvent(@RequestBody DeleteEventRequest request){
+        return eventService.deleteEvent(request.getEventId(),request.getHostId());
     }
 
 }

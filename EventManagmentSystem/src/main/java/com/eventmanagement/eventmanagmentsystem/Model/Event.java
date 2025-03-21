@@ -26,7 +26,7 @@ public class Event {
     private String city;
     private String venue;
     private String location;
-    private LocalDateTime date;
+    private String date;
     private String category;
     private String coverImage;
     private String coverImageThumbnail;

@@ -12,7 +12,7 @@ public record EventResponse (
         String city,
         String venue,
         String location,
-        LocalDateTime date,
+        String date,
         String category,
         String coverImage,
         String coverImageThumbnail,

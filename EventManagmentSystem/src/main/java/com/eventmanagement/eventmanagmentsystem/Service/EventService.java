@@ -185,4 +185,30 @@ public class EventService {
                         event.getWishCount()
                 )).toList();
     }
+
+    public EventResponse deleteEvent(String id, String hostId) {
+        Event event = eventRepository.findById(id).orElseThrow(() -> new RuntimeException("Event not found"));
+        if (event.getHostId().equals(hostId)) {
+            eventRepository.delete(event);
+            return new EventResponse(
+                    event.getId(),
+                    event.getHostId(),
+                    event.getName(),
+                    event.getDescription(),
+                    event.getCountry(),
+                    event.getCity(),
+                    event.getVenue(),
+                    event.getLocation(),
+                    event.getDate(),
+                    event.getCategory(),
+                    event.getCoverImage(),
+                    event.getCoverImageThumbnail(),
+                    event.getImages(),
+                    event.getImageThumbnails(),
+                    event.getWishCount()
+            );
+        } else {
+            throw new RuntimeException("You are not authorized to delete this event");
+        }
+    }
 }
