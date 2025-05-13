@@ -1,0 +1,64 @@
+# docker-compose.yml version '3.8' or higher is recommended
+version: '3.8'
+
+services:
+  # PostgreSQL Database Service
+  db:
+    image: postgres:15 # Use a specific version of PostgreSQL (e.g., 15, 16)
+    container_name: postgres_db_sanchaara # Optional: Custom container name
+    environment:
+      # These environment variables are used by the postgres image to initialize the DB
+      POSTGRES_USER: ${DB_USER:-user_sc} # Use environment variable or default
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-your_password} # Use environment variable or default
+      POSTGRES_DB: ${DB_NAME:-sanchaara_db} # Use environment variable or default database name
+    volumes:
+      # Persist database data outside the container
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      # Map host port 5433 to container port 5432 (avoids conflict if you have Postgres running locally on 5432)
+      # Change the host port (e.g., 5432) if needed
+      - "5433:5432"
+    networks:
+      # Define the network this service belongs to
+      - spring-postgres-net
+    restart: unless-stopped # Restart policy
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-user_sc} -d ${DB_NAME:-sanchaara_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Spring Boot Application Service
+  app:
+    container_name: spring_boot_app_sanchaara # Optional: Custom container name
+    # Build the image from the Dockerfile in the current directory (.)
+    build: .
+    ports:
+      # Map host port 8080 to container port 8080 (where Spring Boot runs)
+      - "8080:8080"
+    environment:
+      # Pass database connection details to the Spring Boot application
+      # IMPORTANT: Use the service name 'db' as the host, not 'localhost'
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DB_NAME:-sanchaara_db}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER:-user_sc}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-u&#Ka1L3Ap01}
+      # Optional: Override JPA DDL generation strategy for Docker environment
+      # SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      # Wait for the db service to be healthy before starting the app service
+      db:
+        condition: service_healthy
+    networks:
+      # Define the network this service belongs to
+      - spring-postgres-net
+    restart: on-failure # Restart policy
+
+# Define named volume for data persistence
+volumes:
+  postgres_data:
+    driver: local # Use the local driver
+
+# Define the network
+networks:
+  spring-postgres-net:
+    driver: bridge # Use the default bridge network driver
