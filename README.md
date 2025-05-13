@@ -4,7 +4,7 @@ Follow the steps below to run the backend using Docker:
 
 ### 📁 Step 1: Navigate to the Project Root
 
-Ensure you're in the root folder of the project. The root folder is named: "demo"
+Ensure you're in the root folder of the project. The root folder is named: "demo"  
 
 
 
@@ -13,7 +13,7 @@ Make sure Docker Desktop is running on your machine before proceeding.
 
 If it's not already running, open Docker Desktop from your applications menu.
 
-Wait until Docker is fully initialized.
+Wait until Docker is fully initialized.  
 
 
 
@@ -24,8 +24,7 @@ Run the following command to build the Docker image and start the backend servic
 
 This will:
 
-Build all services as defined in the docker-compose.yml
-
-Start the containers and run the backend application
+- Build all services as defined in the docker-compose.yml
+- Start the containers and run the backend application
 
 ℹ️ Tip: The --build flag ensures that any changes in the Dockerfile or dependencies are reflected by rebuilding the image.
