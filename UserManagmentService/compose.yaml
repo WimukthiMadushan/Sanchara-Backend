@@ -24,6 +24,9 @@ services:
   app:
     container_name: usermanagement_spring_boot
     build: .
+    volumes:
+      - ./target:/app/target
+      - ./src:/app/src
     ports:
       - "8080:8080"
     environment:
