@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 // Lombok can also be used here
-public class LoginRequest {
+public class SignInRequest {
 
     @NotBlank(message = "Email cannot be blank")
     @Email(message = "Email should be valid")

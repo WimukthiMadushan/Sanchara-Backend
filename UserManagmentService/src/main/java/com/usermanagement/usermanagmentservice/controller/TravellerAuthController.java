@@ -1,11 +1,10 @@
 package com.usermanagement.usermanagmentservice.controller;
 
-import com.usermanagement.usermanagmentservice.User;
-import com.usermanagement.usermanagmentservice.dto.AuthResponse;
-import com.usermanagement.usermanagmentservice.dto.LoginRequest;
-import com.usermanagement.usermanagmentservice.dto.MessageResponse;
-import com.usermanagement.usermanagmentservice.dto.SignUpRequest;
-import com.usermanagement.usermanagmentservice.service.AuthService;
+import com.usermanagement.usermanagmentservice.dto.*;
+import com.usermanagement.usermanagmentservice.dto.traveller.Traveller;
+import com.usermanagement.usermanagmentservice.dto.traveller.TravellerSignUpRequest;
+import com.usermanagement.usermanagmentservice.service.TravellerAuthService;
+import com.usermanagement.usermanagmentservice.utility.JwtUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,16 +19,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/auth")
-public class AuthController {
-    @GetMapping("/hello")
-    public String hello() {
-        return "Hello World!";
-    }
-
+@RequestMapping("/api/auth/traveller")
+public class TravellerAuthController {
     @Autowired
-    private AuthService authService;
+    private TravellerAuthService travellerAuthService;
 
+    /**
+     * Handles the user registration process.
+     *
+     * @param travellerSignUpRequest the request object containing user registration details
+     * @return a ResponseEntity containing an AuthResponse with a success message and user details if registration is successful,
+     *         or a MessageResponse with an error message if registration fails
+     *
+     * @throws RuntimeException if the email is already in use
+     */
     @PostMapping("/signup")
     @Operation(summary = "Register a new user")
     @ApiResponses(value = {
@@ -40,12 +43,16 @@ public class AuthController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponse.class)))
     })
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<?> travellerSignUp(@Valid @RequestBody TravellerSignUpRequest travellerSignUpRequest) {
         try {
-            User registeredUser = authService.registerUser(signUpRequest);
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body(new AuthResponse("User registered successfully!", registeredUser.getId(), registeredUser.getEmail()));
+            Traveller registeredTraveller = travellerAuthService.registerTraveller(travellerSignUpRequest);
+            String token = JwtUtils.generateTravellerToken(registeredTraveller);
+
+            AuthResponse authResponse = new AuthResponse(
+                    "User registered successfully!",
+                    token
+            );
+            return ResponseEntity.status(HttpStatus.CREATED).body(authResponse);
         } catch (RuntimeException e) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
@@ -60,11 +67,11 @@ public class AuthController {
     /**
      * Endpoint for user login (sign in).
      *
-     * @param loginRequest The login request DTO, validated.
+     * @param signInRequest The login request DTO, validated.
      * @return ResponseEntity with user details upon successful login or an error message.
      */
     @PostMapping("/signin")
-    @Operation(summary = "Authenticate user (login)")
+    @Operation(summary = "Authenticate user")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Login successful",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = AuthResponse.class))),
@@ -73,15 +80,19 @@ public class AuthController {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponse.class)))
     })
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> travellerSignIn(@Valid @RequestBody SignInRequest signInRequest) {
         try {
-            Optional<User> userOptional = authService.loginUser(loginRequest);
+            Optional<Traveller> userOptional = travellerAuthService.loginTraveller(signInRequest);
 
             if (userOptional.isPresent()) {
-                User user = userOptional.get();
-                // For now, just return a success message and user info.
-                // Later, you would generate and return a JWT here.
-                return ResponseEntity.ok(new AuthResponse("Login successful!", user.getId(), user.getEmail()));
+                Traveller user = userOptional.get();
+                String token = JwtUtils.generateTravellerToken(user);
+
+                AuthResponse authResponse = new AuthResponse(
+                        "Login successfull!",
+                        token
+                );
+                return ResponseEntity.status(HttpStatus.CREATED).body(authResponse);
             } else {
                 return ResponseEntity
                         .status(HttpStatus.UNAUTHORIZED) // 401 Unauthorized

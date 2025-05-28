@@ -1,4 +1,4 @@
-package com.usermanagement.usermanagmentservice.dto;
+package com.usermanagement.usermanagmentservice.dto.traveller;
 
 import java.time.LocalDate;
 
@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 // Lombok can also be used here for getters, setters, etc.
-public class SignUpRequest {
+public class TravellerSignUpRequest {
 
     @NotBlank(message = "First name cannot be blank")
     @Size(min = 2, max = 50, message = "First name must be between 2 and 50 characters")
