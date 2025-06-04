@@ -4,7 +4,6 @@ services:
   spring-boot-app:
     build:
       context: .
-      dockerfile: Dockerfile
     container_name: event-management-service
     restart: always
     ports:
