@@ -1,0 +1,3 @@
+version: '3.8'
+services:
+# Kafka or other services can be added here in the future
