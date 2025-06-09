@@ -8,6 +8,6 @@ public class UserManagementServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(UserManagementServiceApplication.class, args);
         System.out.println("Spring Boot SanChaara backend User Authentication started!");
-        System.out.println("Access API at http://localhost:8080/api/auth/...");
+        System.out.println("Access API at http://localhost:8083/api/auth/...");
     }
 }

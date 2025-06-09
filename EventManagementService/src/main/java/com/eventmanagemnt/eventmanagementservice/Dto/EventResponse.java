@@ -3,6 +3,7 @@ package com.eventmanagemnt.eventmanagementservice.Dto;
 import java.util.List;
 
 public record EventResponse(
+
         String id,
         String hostId,
         String name,

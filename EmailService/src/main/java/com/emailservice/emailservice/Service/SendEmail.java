@@ -22,7 +22,5 @@ public class SendEmail {
         mailMessage.setSubject(subject);
         mailMessage.setText(body);
         javaMailSender.send(mailMessage);
-
-
     }
 }

@@ -1,0 +1,5 @@
+com\emailservice\emailservice\EmailServiceApplication.class
+com\emailservice\emailservice\Controllers\EmailController.class
+com\emailservice\emailservice\Event\AddEvent.class
+com\emailservice\emailservice\Service\SendEmail.class
+com\emailservice\emailservice\Service\NotificationService.class

@@ -9,11 +9,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document(value = "Event")
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
-@Builder //Enables the Builder pattern.
+@AllArgsConstructor
 @Data
+@Document(value = "Event")
 public class Event {
     @Id
     private String id;

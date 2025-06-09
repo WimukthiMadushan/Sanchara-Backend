@@ -1,49 +1,10 @@
 version: '3.8'
 
 services:
-  db:
-    image: postgres:15
-    container_name: usermanagment_db
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    networks:
-      - usermanagment-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
   app:
-    container_name: usermanagement_spring_boot
-    build: .
-    volumes:
-      - ./target:/app/target
-      - ./src:/app/src
+    container_name: user-management-service
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-    depends_on:
-      db:
-        condition: service_healthy
-    networks:
-      - usermanagment-network
-    restart: on-failure
-
-volumes:
-  postgres_data:
-    driver: local
-
-networks:
-  usermanagment-network:
-    driver: bridge
+      - "8083:8083"
