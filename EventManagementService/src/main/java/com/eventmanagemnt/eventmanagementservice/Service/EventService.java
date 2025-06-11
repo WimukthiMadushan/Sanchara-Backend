@@ -225,4 +225,27 @@ public class EventService {
             throw new RuntimeException("You are not authorized to delete this event");
         }
     }
+
+    public List<EventResponse> searchEvents(String query, int page, int size) {
+        PageRequest pageable = PageRequest.of(page, size);
+        List<Event> events = eventRepository.searchEventsByQuery(query, pageable);
+        return events.stream()
+                .map(event -> new EventResponse(
+                        event.getId(),
+                        event.getHostId(),
+                        event.getName(),
+                        event.getDescription(),
+                        event.getCountry(),
+                        event.getCity(),
+                        event.getVenue(),
+                        event.getLocation(),
+                        event.getDate(),
+                        event.getCategory(),
+                        event.getCoverImage(),
+                        event.getCoverImageThumbnail(),
+                        event.getImages(),
+                        event.getImageThumbnails(),
+                        event.getWishCount()
+                )).toList();
+    }
 }

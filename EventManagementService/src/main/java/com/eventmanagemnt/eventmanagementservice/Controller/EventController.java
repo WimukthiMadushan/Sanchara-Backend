@@ -89,6 +89,14 @@ public class EventController {
 
         return eventService.createEvent(eventRequest, coverImageUrl, coverImageThumbnailUrl, imageUrls, imageThumbnails, email);
     }
+    @GetMapping("/search")
+    public List<EventResponse> searchEvents(
+            @RequestParam(required = false) String query,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return eventService.searchEvents(query, page, size);
+    }
 
     //Correct.......
     @GetMapping("/getAll")
