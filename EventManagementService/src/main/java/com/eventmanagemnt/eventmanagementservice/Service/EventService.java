@@ -23,6 +23,7 @@ public class EventService {
     private final KafkaTemplate<String, AddEvent> kafkaTemplate;
 
     public EventResponse createEvent(EventRequest eventRequest, String coverImageUrl, String coverImageThumbnailUrl, List<String> imageUrls, List<String> imageThumbnails, String email) {
+        int wishCount = eventRequest.wishCount() != null ? eventRequest.wishCount() : 0;
         Event event = Event.builder()
                 .hostId(eventRequest.hostId())
                 .name(eventRequest.name())
@@ -31,13 +32,14 @@ public class EventService {
                 .city(eventRequest.city())
                 .venue(eventRequest.venue())
                 .location(eventRequest.location())
-                .date(eventRequest.date())
+                .startDate(eventRequest.startDate())
+                .endDate(eventRequest.endDate())
                 .category(eventRequest.category())
                 .coverImage(coverImageUrl)
                 .coverImageThumbnail(coverImageThumbnailUrl)
                 .images(imageUrls)
                 .imageThumbnails(imageThumbnails)
-                .wishCount(eventRequest.wishCount())
+                .wishCount(wishCount)
                 .build();
 
         eventRepository.save(event);
@@ -59,7 +61,8 @@ public class EventService {
                 event.getCity(),
                 event.getVenue(),
                 event.getLocation(),
-                event.getDate(),
+                event.getStartDate(),
+                event.getEndDate(),
                 event.getCategory(),
                 event.getCoverImage(),
                 event.getCoverImageThumbnail(),
@@ -80,7 +83,8 @@ public class EventService {
                         event.getCity(),
                         event.getVenue(),
                         event.getLocation(),
-                        event.getDate(),
+                        event.getStartDate(),
+                        event.getEndDate(),
                         event.getCategory(),
                         event.getCoverImage(),
                         event.getCoverImageThumbnail(),
@@ -101,7 +105,8 @@ public class EventService {
                         event.getCity(),
                         event.getVenue(),
                         event.getLocation(),
-                        event.getDate(),
+                        event.getStartDate(),
+                        event.getEndDate(),
                         event.getCategory(),
                         event.getCoverImage(),
                         event.getCoverImageThumbnail(),
@@ -122,7 +127,8 @@ public class EventService {
                         event.getCity(),
                         event.getVenue(),
                         event.getLocation(),
-                        event.getDate(),
+                        event.getStartDate(),
+                        event.getEndDate(),
                         event.getCategory(),
                         event.getCoverImage(),
                         event.getCoverImageThumbnail(),
@@ -143,7 +149,8 @@ public class EventService {
                         event.getCity(),
                         event.getVenue(),
                         event.getLocation(),
-                        event.getDate(),
+                        event.getStartDate(),
+                        event.getEndDate(),
                         event.getCategory(),
                         event.getCoverImage(),
                         event.getCoverImageThumbnail(),
@@ -166,7 +173,8 @@ public class EventService {
                         event.getCity(),
                         event.getVenue(),
                         event.getLocation(),
-                        event.getDate(),
+                        event.getStartDate(),
+                        event.getEndDate(),
                         event.getCategory(),
                         event.getCoverImage(),
                         event.getCoverImageThumbnail(),
@@ -190,7 +198,8 @@ public class EventService {
                         event.getCity(),
                         event.getVenue(),
                         event.getLocation(),
-                        event.getDate(),
+                        event.getStartDate(),
+                        event.getEndDate(),
                         event.getCategory(),
                         event.getCoverImage(),
                         event.getCoverImageThumbnail(),
@@ -213,7 +222,8 @@ public class EventService {
                     event.getCity(),
                     event.getVenue(),
                     event.getLocation(),
-                    event.getDate(),
+                    event.getStartDate(),
+                    event.getEndDate(),
                     event.getCategory(),
                     event.getCoverImage(),
                     event.getCoverImageThumbnail(),
@@ -239,7 +249,8 @@ public class EventService {
                         event.getCity(),
                         event.getVenue(),
                         event.getLocation(),
-                        event.getDate(),
+                        event.getStartDate(),
+                        event.getEndDate(),
                         event.getCategory(),
                         event.getCoverImage(),
                         event.getCoverImageThumbnail(),

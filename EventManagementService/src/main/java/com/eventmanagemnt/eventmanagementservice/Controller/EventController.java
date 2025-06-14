@@ -89,6 +89,35 @@ public class EventController {
 
         return eventService.createEvent(eventRequest, coverImageUrl, coverImageThumbnailUrl, imageUrls, imageThumbnails, email);
     }
+
+    @PostMapping(value = "/create/test", consumes = "multipart/form-data")
+    @ResponseStatus(HttpStatus.CREATED)
+    public EventResponse createEvent(@ModelAttribute EventRequest eventRequest) throws IOException {
+
+        String coverImageUrl = null;
+        String coverImageThumbnailUrl = null;
+
+        if (eventRequest.coverImage() != null && !eventRequest.coverImage().isEmpty()) {
+            coverImageUrl = cloudinaryService.uploadImage(eventRequest.coverImage());
+            coverImageThumbnailUrl = cloudinaryService.uploadThumbnail(eventRequest.coverImage());
+        }
+
+        List<String> imageUrls = new ArrayList<>();
+        List<String> imageThumbnails = new ArrayList<>();
+
+        if (eventRequest.images() != null) {
+            for (MultipartFile image : eventRequest.images()) {
+                if (image != null && !image.isEmpty()) {
+                    imageUrls.add(cloudinaryService.uploadImage(image));
+                    imageThumbnails.add(cloudinaryService.uploadThumbnail(image));
+                }
+            }
+        }
+        String email = "wimukthimadushan6@gmail.com";
+
+        return eventService.createEvent(eventRequest, coverImageUrl, coverImageThumbnailUrl, imageUrls, imageThumbnails, email);
+    }
+
     @GetMapping("/search")
     public List<EventResponse> searchEvents(
             @RequestParam(required = false) String query,
@@ -133,8 +162,8 @@ public class EventController {
     }
 
     //Correct........
-    //@DeleteMapping("/deleteEvent")
-    //public EventResponse deleteEvent(@RequestBody DeleteEventRequest request){
-    //    return eventService.deleteEvent(request.getEventId(),request.getHostId());
-    //}
+    @DeleteMapping("/deleteEvent")
+    public EventResponse deleteEvent(@RequestBody DeleteEventRequest request){
+        return eventService.deleteEvent(request.getEventId(),request.getHostId());
+    }
 }

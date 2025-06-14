@@ -23,8 +23,9 @@ public class Event {
     private String country;
     private String city;
     private String venue;
-    private String location;
-    private String date;
+    private double[] location;
+    private String startDate;
+    private String endDate;
     private String category;
     private String coverImage;
     private String coverImageThumbnail;
