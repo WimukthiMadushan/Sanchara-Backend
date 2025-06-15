@@ -31,7 +31,8 @@ public class EventService {
                 .country(eventRequest.country())
                 .city(eventRequest.city())
                 .venue(eventRequest.venue())
-                .location(eventRequest.location())
+                .longitude(eventRequest.longitude())
+                .latitude(eventRequest.latitude())
                 .startDate(eventRequest.startDate())
                 .endDate(eventRequest.endDate())
                 .category(eventRequest.category())
@@ -43,15 +44,15 @@ public class EventService {
                 .build();
 
         eventRepository.save(event);
-        AddEvent addEvent = new AddEvent(eventRequest.id(),eventRequest.hostId(),eventRequest.name(), eventRequest.city(),eventRequest.country(), email) ;
-        kafkaTemplate.send("Add-Event", addEvent)
-                .whenComplete((result, ex) -> {
-                    if (ex == null) {
-                        log.info("Event sent successfully to Kafka topic Add-Event: {}", addEvent);
-                    } else {
-                        log.error("Failed to send event to Kafka topic Add-Event", ex);
-                    }
-                });
+        //AddEvent addEvent = new AddEvent(eventRequest.id(),eventRequest.hostId(),eventRequest.name(), eventRequest.city(),eventRequest.country(), email) ;
+        //kafkaTemplate.send("Add-Event", addEvent)
+        //        .whenComplete((result, ex) -> {
+        //            if (ex == null) {
+        //                log.info("Event sent successfully to Kafka topic Add-Event: {}", addEvent);
+        //            } else {
+        //                log.error("Failed to send event to Kafka topic Add-Event", ex);
+        //            }
+        //        });
         return new EventResponse(
                 event.getId(),
                 event.getHostId(),
@@ -60,7 +61,8 @@ public class EventService {
                 event.getCountry(),
                 event.getCity(),
                 event.getVenue(),
-                event.getLocation(),
+                event.getLatitude(),
+                event.getLongitude(),
                 event.getStartDate(),
                 event.getEndDate(),
                 event.getCategory(),
@@ -82,7 +84,8 @@ public class EventService {
                         event.getCountry(),
                         event.getCity(),
                         event.getVenue(),
-                        event.getLocation(),
+                        event.getLatitude(),
+                        event.getLongitude(),
                         event.getStartDate(),
                         event.getEndDate(),
                         event.getCategory(),
@@ -104,7 +107,8 @@ public class EventService {
                         event.getCountry(),
                         event.getCity(),
                         event.getVenue(),
-                        event.getLocation(),
+                        event.getLatitude(),
+                        event.getLongitude(),
                         event.getStartDate(),
                         event.getEndDate(),
                         event.getCategory(),
@@ -126,7 +130,8 @@ public class EventService {
                         event.getCountry(),
                         event.getCity(),
                         event.getVenue(),
-                        event.getLocation(),
+                        event.getLatitude(),
+                        event.getLongitude(),
                         event.getStartDate(),
                         event.getEndDate(),
                         event.getCategory(),
@@ -148,7 +153,8 @@ public class EventService {
                         event.getCountry(),
                         event.getCity(),
                         event.getVenue(),
-                        event.getLocation(),
+                        event.getLatitude(),
+                        event.getLongitude(),
                         event.getStartDate(),
                         event.getEndDate(),
                         event.getCategory(),
@@ -172,7 +178,8 @@ public class EventService {
                         event.getCountry(),
                         event.getCity(),
                         event.getVenue(),
-                        event.getLocation(),
+                        event.getLatitude(),
+                        event.getLongitude(),
                         event.getStartDate(),
                         event.getEndDate(),
                         event.getCategory(),
@@ -197,7 +204,8 @@ public class EventService {
                         event.getCountry(),
                         event.getCity(),
                         event.getVenue(),
-                        event.getLocation(),
+                        event.getLatitude(),
+                        event.getLongitude(),
                         event.getStartDate(),
                         event.getEndDate(),
                         event.getCategory(),
@@ -221,7 +229,8 @@ public class EventService {
                     event.getCountry(),
                     event.getCity(),
                     event.getVenue(),
-                    event.getLocation(),
+                    event.getLatitude(),
+                    event.getLongitude(),
                     event.getStartDate(),
                     event.getEndDate(),
                     event.getCategory(),
@@ -248,7 +257,8 @@ public class EventService {
                         event.getCountry(),
                         event.getCity(),
                         event.getVenue(),
-                        event.getLocation(),
+                        event.getLatitude(),
+                        event.getLongitude(),
                         event.getStartDate(),
                         event.getEndDate(),
                         event.getCategory(),

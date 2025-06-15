@@ -23,7 +23,8 @@ public class Event {
     private String country;
     private String city;
     private String venue;
-    private double[] location;
+    private double latitude;
+    private double longitude;
     private String startDate;
     private String endDate;
     private String category;
