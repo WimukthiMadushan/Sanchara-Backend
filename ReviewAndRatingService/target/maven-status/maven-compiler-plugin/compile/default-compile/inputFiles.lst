@@ -1,0 +1,10 @@
+C:\Users\wimuk\Desktop\Sanchara-Backend\ReviewAndRatingService\src\main\java\com\usermanagement\reviewandratingservice\Controller\AbstractReviewAndRatingController.java
+C:\Users\wimuk\Desktop\Sanchara-Backend\ReviewAndRatingService\src\main\java\com\usermanagement\reviewandratingservice\Controller\ImplReviewAndRatingController.java
+C:\Users\wimuk\Desktop\Sanchara-Backend\ReviewAndRatingService\src\main\java\com\usermanagement\reviewandratingservice\DTOs\ReviewRequestDTO.java
+C:\Users\wimuk\Desktop\Sanchara-Backend\ReviewAndRatingService\src\main\java\com\usermanagement\reviewandratingservice\DTOs\ReviewResponseDTO.java
+C:\Users\wimuk\Desktop\Sanchara-Backend\ReviewAndRatingService\src\main\java\com\usermanagement\reviewandratingservice\Entity\Review.java
+C:\Users\wimuk\Desktop\Sanchara-Backend\ReviewAndRatingService\src\main\java\com\usermanagement\reviewandratingservice\Mappers\ReviewMapper.java
+C:\Users\wimuk\Desktop\Sanchara-Backend\ReviewAndRatingService\src\main\java\com\usermanagement\reviewandratingservice\Repository\ReviewRepository.java
+C:\Users\wimuk\Desktop\Sanchara-Backend\ReviewAndRatingService\src\main\java\com\usermanagement\reviewandratingservice\ReviewAndRatingServiceApplication.java
+C:\Users\wimuk\Desktop\Sanchara-Backend\ReviewAndRatingService\src\main\java\com\usermanagement\reviewandratingservice\Service\ImplReviewAndRatingService.java
+C:\Users\wimuk\Desktop\Sanchara-Backend\ReviewAndRatingService\src\main\java\com\usermanagement\reviewandratingservice\Service\ReviewAndRatingService.java

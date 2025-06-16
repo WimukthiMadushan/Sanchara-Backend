@@ -1,0 +1,10 @@
+com\usermanagement\reviewandratingservice\Entity\Review.class
+com\usermanagement\reviewandratingservice\Service\ImplReviewAndRatingService.class
+com\usermanagement\reviewandratingservice\Mappers\ReviewMapper.class
+com\usermanagement\reviewandratingservice\Controller\AbstractReviewAndRatingController.class
+com\usermanagement\reviewandratingservice\ReviewAndRatingServiceApplication.class
+com\usermanagement\reviewandratingservice\Repository\ReviewRepository.class
+com\usermanagement\reviewandratingservice\Controller\ImplReviewAndRatingController.class
+com\usermanagement\reviewandratingservice\DTOs\ReviewRequestDTO.class
+com\usermanagement\reviewandratingservice\Service\ReviewAndRatingService.class
+com\usermanagement\reviewandratingservice\DTOs\ReviewResponseDTO.class
