@@ -1,0 +1,46 @@
+spring:
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      #      default-filters:
+      #        - name: CircuitBreaker
+      #          args:
+      #            name: globalCircuitBreaker
+      #            fallbackUri: forward:/fallback
+      server:
+        webflux:
+          routes:
+            - id: event-management-service
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/event/**
+            - id: user-management-service
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/auth/**
+            - id: review-and-rating-service
+              uri: http://localhost:8085
+              predicates:
+                - Path=/api/reviews/**
+            - id: wishlist-service
+              uri: http://localhost:8081
+              predicates:
+                - Path=/api/wishlist/**
+server:
+  port: 8080
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+    instances:
+      globalCircuitBreaker:
+        base-config: default
+
+#logging:
+#  level:
+#    root: DEBUG
